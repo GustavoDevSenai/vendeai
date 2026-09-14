@@ -59,6 +59,27 @@ export class ProductListing {
         return this.data.status
     }
 
+    get title(): string{
+        return this.data.title
+    }
+
+    get description(): string{
+        return this.data.description
+    }
+
+    get priceInCents(): number{
+        return this.data.priceInCents
+    }
+
+    get sellerId(): string{
+        return this.data.sellerId
+    }
+
+    get categoryId(): string{
+        return this.data.categoryId
+    }
+
+
     markAsSold():void{
         this.data.status = ProductListingStatus.SOLD
     }

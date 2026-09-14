@@ -13,7 +13,7 @@ export class ProductListingController {
     ){}
 
     @Post()
-    create(@Body() body: CreateProductListingDto){
-        return this.createProductListingUseCase.execute(body)
+    create(@Body() data: CreateProductListingDto){
+        return this.createProductListingUseCase.execute(data)
     }
 }
