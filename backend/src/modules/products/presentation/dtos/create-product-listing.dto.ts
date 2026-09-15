@@ -23,4 +23,5 @@ export class CreateProductListingDto{
     categoryId:string
 
     
+    
 }

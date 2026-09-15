@@ -55,6 +55,11 @@ export class ProductListing {
         
     }
 
+    static restore(data: ProductListingData):ProductListing{
+        return new ProductListing(data)
+    }
+    
+
     get status(): ProductListingStatus{
         return this.data.status
     }

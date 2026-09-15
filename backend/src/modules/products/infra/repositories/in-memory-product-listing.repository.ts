@@ -8,4 +8,8 @@ export class InMemoryProductListingRepository implements ProductListingRepositor
     async create(productListing: ProductListing): Promise<void> {
         this.items.push(productListing)
     }
+
+    findAll(): Promise<ProductListing[]> {
+       return this.findAll()
+    }
 }

@@ -25,4 +25,20 @@ export class ProductListingTypeOrmRepository implements ProductListingRepository
 
         await this.repository.save(listing)
     }
+
+    async findAll(): Promise<ProductListing[]> {
+        const listings = await this.repository.find()
+
+        return listings.map((listing)=>
+            ProductListing.restore({
+                title: listing.title,
+                description: listing.description,
+                priceInCents: listing.priceInCents,
+                sellerId: listing.sellerId,
+                categoryId: listing.categoryId,
+                status: listing.status,
+            })
+        
+        )
+    }
 }

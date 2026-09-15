@@ -6,6 +6,7 @@ import { ProductListingRepository } from "./application/repositories/product-lis
 import { ProductListingTypeOrmRepository } from "./infra/database/typeorm/repositories/product-listing-typeorm.repository.js";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { ProductListingSchema } from "./infra/database/typeorm/entities/product-listing-schema.js";
+import { FindAllProductListingsUseCase } from "./application/use-cases/find-all-product-listing.use-case.js";
 
 
 @Module({
@@ -17,6 +18,7 @@ import { ProductListingSchema } from "./infra/database/typeorm/entities/product-
 
     providers:[
     CreateProductListingUseCase,
+    FindAllProductListingsUseCase,
     {
     provide:ProductListingRepository,
     useClass: ProductListingTypeOrmRepository

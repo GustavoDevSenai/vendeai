@@ -1,4 +1,5 @@
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm"
+import { ProductListingStatus } from "../../../../domain/entities/product-listing.entity.js"
 
 
 
@@ -17,6 +18,9 @@ export class ProductListingSchema {
     sellerId: string
     @Column()
     categoryId: string
-    @Column()
-    status: string
+    @Column({
+    type: "enum",
+    enum: ProductListingStatus,
+    })
+    status: ProductListingStatus
 }
