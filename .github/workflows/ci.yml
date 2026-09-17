@@ -1,36 +1,70 @@
-backend:
-  runs-on: ubuntu-latest
+name: CI
 
-  steps:
-    - name: Checkout
-      uses: actions/checkout@v4
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
 
-    - name: Setup Node
-      uses: actions/setup-node@v4
-      with:
-        node-version: 22
+jobs:
 
-    - name: Check backend files
-      run: |
-        echo "PACKAGE.JSON"
-        grep '"typescript"' backend/package.json
+  frontend:
+    runs-on: ubuntu-latest
 
-        echo "LOCKFILE"
-        grep -A2 '"node_modules/typescript"' backend/package-lock.json
+    defaults:
+      run:
+        working-directory: frontend
 
-    - name: Install backend dependencies
-      working-directory: backend
-      run: npm ci
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
-    - name: Run backend tests with coverage
-      working-directory: backend
-      run: npm run test:cov
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
 
-    - name: Build backend
-      working-directory: backend
-      run: npm run build
-      
-    - name: SonarQube Cloud
-      uses: SonarSource/sonarqube-scan-action@v6
-      env:
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      - name: Install frontend dependencies
+        run: npm ci
+
+      - name: Build frontend
+        run: npm run build
+
+  backend:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Check backend files
+        run: |
+          echo "PACKAGE.JSON"
+          grep '"typescript"' backend/package.json
+
+          echo "LOCKFILE"
+          grep -A2 '"node_modules/typescript"' backend/package-lock.json
+
+      - name: Install backend dependencies
+        working-directory: backend
+        run: npm ci
+
+      - name: Run backend tests with coverage
+        working-directory: backend
+        run: npm run test:cov
+
+      - name: Build backend
+        working-directory: backend
+        run: npm run build
+
+      - name: SonarQube Cloud
+        uses: SonarSource/sonarqube-scan-action@v6
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
